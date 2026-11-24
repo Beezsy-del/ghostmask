@@ -237,6 +237,7 @@ async function pageSnapshot(
   }
   const masks: Rect[] = [];
   const protectedMasks: Rect[] = [];
+  const nonHitTestableRects: Rect[] = [];
   const blocks: TextBlock[] = [];
   const privateValues = new Set<string>();
   const privateControls: {
@@ -314,6 +315,12 @@ async function pageSnapshot(
       style.display === "none"
     )
       continue;
+    // elementFromPoint deliberately ignores pointer-events:none. Conservatively
+    // exclude overlapping text for these regions, even if the region is transparent.
+    if (style.pointerEvents === "none" && Number(style.opacity) !== 0) {
+      const rect = clipRect(r);
+      if (rect) nonHitTestableRects.push(rect);
+    }
     if (
       style.filter !== "none" ||
       style.textShadow !== "none" ||
@@ -388,6 +395,30 @@ async function pageSnapshot(
     }
     return false;
   };
+  // A text node may have visible CSS but sit behind another element. Treat
+  // uncertain or covered rectangles as private rather than disclosing hidden text.
+  // This bounded hit test is conservative, not a pixel-complete occlusion proof.
+  const isExposed = (parent: Element, rects: Rect[]): boolean =>
+    rects.every((r) => {
+      if (r.width <= 0 || r.height <= 0) return false;
+      if (
+        nonHitTestableRects.some(
+          (cover) =>
+            r.x < cover.x + cover.width &&
+            r.x + r.width > cover.x &&
+            r.y < cover.y + cover.height &&
+            r.y + r.height > cover.y,
+        )
+      )
+        return false;
+      const insetX = Math.min(0.5, r.width / 4);
+      const insetY = Math.min(0.5, r.height / 4);
+      const xs = [r.x + insetX, r.x + r.width / 2, r.x + r.width - insetX];
+      const ys = [r.y + insetY, r.y + r.height / 2, r.y + r.height - insetY];
+      return xs.every((x) =>
+        ys.every((y) => document.elementFromPoint(x, y) === parent),
+      );
+    });
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
   let node: Node | null;
   let textCount = 0,
@@ -432,7 +463,8 @@ async function pageSnapshot(
           "input,textarea,select,option,[data-private],[data-sensitive]",
         ),
       ) ||
-      partial;
+      partial ||
+      !isExposed(parent, rects);
     for (const r of originalRects) addRect(r, excluded);
     const contextParts: string[] = [];
     let contextParent: Element | null = parent;

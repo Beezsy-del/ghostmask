@@ -23,3 +23,9 @@ Official Chrome and Playwright documentation was queried through Context7 for ca
 - Codex applied `codebase-design` to separate text detection, disclosure planning, image rendering, OCR, session policy and gateway transport.
 - Capture/UI agents independently applied relevant testing/design instructions; see V2_CAPTURE.md and V2_UI.md. Parent reviewed and ran integration tests.
 - Context7 documentation checked for Tesseract.js worker/output APIs, Compromise name recognition and LM Studio structured responses. No dedicated local privacy/OCR skill was found. Cloud OCR skills were not used because the raw image must stay local.
+
+## Next validation stage (24 November 2026)
+
+Codex read the TDD skill and its tests/mocking references. Used the public interfaces already authorized in the master prompt: capture, disclosure, actual outgoing requests and exports. Wrote and ran failing regressions for split protected phrases and separated sensitive labels before changing disclosure planning. Browser pixel truth comes from synthetic secret elements, not the implementation's generated mask list. Network responses are mocked only at the external provider boundary.
+
+Codex read the Antigravity delegation skill and launched a narrow read-only session/token review (run 20261124-202329-2317c1ba). Completion and verdict are recorded in NEXT_VALIDATION_REPORT.md once inspected. A separate native Codex review reproduced three disclosure defects; this is not a Gemini review or a professional security audit.

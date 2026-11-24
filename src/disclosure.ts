@@ -82,11 +82,13 @@ export function planDisclosure(
       ocrStatus: "not-requested",
     };
   if (!o.blocks || !o.protectedMasks) throw new SafeError("UNSUPPORTED");
-  const privateTerms = [...new Set([
-    ...options.privateTerms,
-    ...(o.privateValues ?? []),
-    ...o.fields.map((f) => f.value).filter(Boolean),
-  ])];
+  const privateTerms = [
+    ...new Set([
+      ...options.privateTerms,
+      ...(o.privateValues ?? []),
+      ...o.fields.map((f) => f.value).filter(Boolean),
+    ]),
+  ];
   const masks: Mask[] = o.protectedMasks.map((rect) => ({
     rect: { ...rect },
     reason: "unsupported",
@@ -98,20 +100,45 @@ export function planDisclosure(
   // Detect across adjacent DOM nodes, then conservatively suppress each affected node.
   const combined = o.blocks.map((b) => (b.excluded ? "" : b.text)).join(" ");
   const global = redactText(combined, { privateTerms, contextual: false });
+  // Newlines preserve block boundaries while allowing a label ending in ':'
+  // to describe the next text node. Unlike a space-only view, this does not
+  // classify every later paragraph as the label's value.
+  const contextual = redactText(
+    o.blocks.map((b) => (b.excluded ? "" : b.text)).join("\n"),
+    {
+      privateTerms,
+      people: false,
+    },
+  ).detections.filter((hit) => hit.method === "context");
+  // HTML can split a protected value across inline nodes without visible spaces.
+  // Match a second whitespace-free view and map hits back to whole blocks.
+  const compactBlocks = o.blocks.map((b) =>
+    b.excluded ? "" : b.text.replace(/\s/g, ""),
+  );
+  const compactHits = redactText(compactBlocks.join(""), {
+    privateTerms: privateTerms.map((t) => t.replace(/\s/g, "")),
+    contextual: false,
+    people: false,
+  }).detections.filter((hit) => hit.method === "user");
+  let compactOffset = 0;
   let offset = 0,
     maskedBlocks = 0;
   const text: string[] = [];
-  for (const block of o.blocks) {
+  for (const [index, block] of o.blocks.entries()) {
     const raw = block.excluded ? "" : block.text;
     const end = offset + raw.length;
+    const compactEnd = compactOffset + compactBlocks[index].length;
     const local = redactText(raw, { privateTerms, context: block.context });
     const sensitive =
       block.excluded ||
+      compactHits.some((h) => h.start < compactEnd && h.end > compactOffset) ||
       options.blockedBlocks.includes(block.id) ||
       local.detections.length > 0 ||
       global.detections.some((h) => h.start < end && h.end > offset) ||
+      contextual.some((h) => h.start < end && h.end > offset) ||
       block.rects.some((r) => manual.some((m) => rectIntersects(r, m)));
     offset = end + 1;
+    compactOffset = compactEnd;
     if (sensitive) {
       maskedBlocks++;
       for (const rect of block.rects)

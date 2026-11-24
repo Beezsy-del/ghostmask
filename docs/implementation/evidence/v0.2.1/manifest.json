@@ -1,0 +1,16 @@
+{
+  "version": "0.2.1",
+  "dataset_status": "development-regression",
+  "results": {
+    "code_passed": 44,
+    "fixture_passed": 8,
+    "browser_passed": 14
+  },
+  "files": {
+    "src/browser.ts": "59b01004701988d4f3f6be72b401a0bb9dcbb781a5e45de0bdb0ee3f4e9cc70d",
+    "src/disclosure.ts": "c4fb1b2110e9d269a34eca7b3523587c6e08c51d9483765da3315aea06215ed3",
+    "tests/browser-unit.test.ts": "1ca8d2350d9195909c97e49b601fb95fb4e9eae98681596bd2a189ed5efa9103",
+    "tests/disclosure.test.ts": "d8273619e6f320de540fe616be2fc97f81b37cf254e14b00650016fd0bf4b419",
+    "tests/e2e/privacy-regressions.spec.ts": "88c84ddaf1d217f7443d01408c46e033d56ba15a7ff828cfab692baa103b7487"
+  }
+}

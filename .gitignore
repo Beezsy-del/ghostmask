@@ -12,3 +12,5 @@ __pycache__/
 .DS_Store
 .court/
 .playwright-cli/
+# Local document-rendering intermediates
+tmp/

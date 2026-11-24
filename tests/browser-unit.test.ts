@@ -445,3 +445,30 @@ test("a programmatic hidden-value change invalidates capture identity", async ()
     },
   );
 });
+
+test("covered text is excluded while visible overlay and nearby public text remain readable", async () => {
+  await withRealDom(
+    `<style>body{font:16px Arial;margin:0}.cover{position:absolute;left:0;top:0;width:300px;height:60px;background:white;z-index:20}#public{position:absolute;top:100px}</style><p>saffron-cedar-49</p><div class="cover">Public cover</div><p id="public">Returns within 14 days.</p>`,
+    async (browser) => {
+      const capture = await browser.capture(7, []);
+      const text = capture.blocks!.map((b) => b.text).join("\n");
+      assert.ok(!text.includes("saffron-cedar-49"));
+      assert.ok(text.includes("Public cover"));
+      assert.ok(text.includes("Returns within 14 days."));
+      assert.ok(capture.blocks!.some((b) => b.excluded));
+      assert.ok(capture.protectedMasks!.some((r) => r.y < 60));
+    },
+  );
+});
+
+test("pointer-transparent covering elements cannot expose underlying text", async () => {
+  await withRealDom(
+    `<style>body{font:16px Arial;margin:0}.cover{position:absolute;left:0;top:0;width:300px;height:60px;background:white;pointer-events:none}#public{position:absolute;top:100px}</style><p>saffron-cedar-49</p><div class="cover"></div><p id="public">Returns within 14 days.</p>`,
+    async (browser) => {
+      const capture = await browser.capture(7, []);
+      const text = capture.blocks!.map((b) => b.text).join("\n");
+      assert.ok(!text.includes("saffron-cedar-49"));
+      assert.ok(text.includes("Returns within 14 days."));
+    },
+  );
+});

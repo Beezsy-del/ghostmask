@@ -2,7 +2,9 @@
 
 GhostMask lets you inspect what a model receives and approve a value for insertion into one field. It is a new project built from the roadmap, not a recovered existing app.
 
-**Version 0.2:** a working local review release. Selective mode keeps useful public content, masks detected/private regions, runs offline English OCR, and lets you add masks before exporting or using a local model. Strict mode hides all source pixels and text. Detection is imperfect: review both image and text. Use synthetic data while evaluating it.
+**Version 0.2.1:** a working local review release. Selective mode keeps useful public content, masks detected/private regions, runs offline English OCR, and lets you add masks before exporting or using a local model. Strict mode hides all source pixels and text. Detection is imperfect: review both image and text. Use synthetic data while evaluating it.
+
+The local 0.2.1 patch fixes split protected phrases, separated sensitive labels, and covered-text disclosure. See [the validation report](docs/implementation/NEXT_VALIDATION_REPORT.md) for tests and limits.
 
 See [the 0.2 release report](docs/implementation/V2_RELEASE_REPORT.md) for current scope. Older reports describe the preserved 0.1 baseline.
 

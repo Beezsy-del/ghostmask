@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "status": "development-regression",
+  "source": "tests/e2e/privacy-regressions.spec.ts",
+  "provenance": "Codex-authored synthetic cases; no real personal data",
+  "case_names": [
+    "covered text with pointer-events auto",
+    "covered text with pointer-events none",
+    "split protected phrase",
+    "separate password label",
+    "hidden value repeated visibly",
+    "URL with private query",
+    "encoded protected phrase",
+    "context-labelled identifier",
+    "missing OCR worker"
+  ],
+  "oracle": "Known seed strings and rectangles measured from declared synthetic secret elements; actual outbound HTTP body intercepted",
+  "limitations": [
+    "Not held out",
+    "Not an AUC benchmark",
+    "No independent human labels",
+    "Provider response mocked; no model-quality claim"
+  ],
+  "original_frozen_fixtures": "unchanged",
+  "sha256": "88c84ddaf1d217f7443d01408c46e033d56ba15a7ff828cfab692baa103b7487"
+}
