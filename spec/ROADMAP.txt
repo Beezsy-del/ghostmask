@@ -1,0 +1,323 @@
+GHOSTMASK  /  PRODUCT & ENGINEERING ROADMAP
+1
+DETAILED PRODUCT & ENGINEERING ROADMAP
+GhostMask
+A privacy boundary for one supported browser-agent pipeline.
+The product promise
+Let an agent help with a task while reducing the private information sent to its cloud model.
+Planning edition · 24 November 2026
+Designed for a small team and an Apple M1 Pro with 16 GB RAM. Includes a 24-hour prototype and a
+six-week development path. All datasets, milestones, and release gates below are proposals. No model
+scores, user outcomes, or security guarantees have been measured.
+1. Choose a specific user and problem
+Start with small teams or individuals using a browser agent to prepare forms containing personal data. The
+page may also contain unrelated addresses, account details, private messages, or identifiers. The model
+often needs field labels and task context, but not every visible value.
+The first workflow is a synthetic contact or reimbursement form. The agent receives a sanitized view,
+chooses permitted fields, and fills a local test form using approved local values. Do not begin with banking,
+payments, passwords, or identity-verification workflows.
+Positioning and competition
+PLVA already describes local screenshot redaction, temporary tokens, and local restoration. GhostMask is
+not the first privacy layer. Its proposed contribution is task-specific disclosure, inspectable outgoing
+payloads, and browser-form evaluation. This distinction needs user and competitor validation. [G1]
+First version
+Later, after validation
+One integrated agent; selected tabs; known data
+classes; local redaction; visible payload preview; one
+controlled form.
+Additional adapters, more languages, document/image
+support, team policies, and independent security review.
+Honest boundary
+Protect the inputs sent through the integrated pipeline. Do not claim to intercept every agent, every
+screenshot, or all traffic from the browser.
+
+
+GHOSTMASK  /  PRODUCT & ENGINEERING ROADMAP
+2
+02 / USER EXPERIENCE
+Show exactly what leaves
+2. Build the product around a disclosure review
+Screen
+What the user sees and controls
+Task setup
+Selected tab, destination, task purpose, allowed data classes, and manual exclusions.
+Privacy preview
+Original view locally; sanitized model view alongside it; selectable masked regions.
+Permission review
+Which local values may be inserted into which destination fields. Model visibility and
+form-use permission are separate.
+Run view
+Current action, most recent capture, uncertainty indicators, pause button, and local-only
+notices.
+Receipt
+Payload categories sent, redactions applied, actions completed, blocked cases, and
+retention controls.
+3. The three-minute demonstration
+• Open a seeded test page with fake contact details, an identifier, and an unrelated private note. Use no real
+credentials.
+• Ask the agent to prepare a contact form. Show that only approved information is available for local
+insertion.
+• Display the exact sanitized image and text that the model receives. Keep the raw local preview visibly
+separate.
+• Execute a permitted token insertion; verify the destination field locally.
+• Add a secret in a dynamic section. Capture again and show the changed mask or a blocked request.
+• Trigger a sanitization failure. Show that no model request is sent and the task pauses.
+Acceptance criteria
+The demo must inspect the actual model-request payload, not a decorative preview. Every claimed
+redaction must match the bytes sent. The action receipt must distinguish successful insertion from an
+attempted action. If the model pipeline is simulated, label it as simulated.
+Keep the useful task working after redaction. A system that hides the entire page can prevent disclosure
+but provides little evidence of usable privacy protection.
+
+
+GHOSTMASK  /  PRODUCT & ENGINEERING ROADMAP
+3
+03 / TRUST BOUNDARY
+Control capture through transmission
+4. Proposed architecture
+Selected authorised tab → local capture coordinator
+DOM fields + screenshot + capture identity
+Local rules / text detector / image text recognition
+Sanitized image + sanitized text + restricted element map
+Outbound gate → one supported model connection
+Structured proposed action → policy check → local executor
+DOM means the browser’s structured representation of the page. OCR means recognising text inside an
+image. Both are local inputs to sanitization; neither should bypass the outbound gate.
+Module
+Responsibility
+Extension panel
+Task setup, data permissions, preview, pause, receipt.
+Capture coordinator
+Bind observations to tab, frame, navigation, time, viewport, zoom, and device scale.
+Detector + masker
+Identify private text, map regions, create opaque masks and placeholder text.
+Local value store
+Keep task values separate from model-visible material.
+Outbound gateway
+Accept only validated sanitized payloads; prohibit raw-image fallbacks.
+Action resolver
+Check destination and field permissions; resolve tokens locally; verify results.
+Chrome content scripts can inspect accessible page content but are not a universal interception
+mechanism. Frame and host access must be handled explicitly. [G2] Begin with supported HTML forms;
+mark inaccessible frames, canvas text, and embedded documents unsupported until tested.
+
+
+GHOSTMASK  /  PRODUCT & ENGINEERING ROADMAP
+4
+04 / REDACTION DESIGN
+Mask the transmitted artifact
+5. The capture and sanitization sequence
+1. Read the current page identity and supported elements. 2. Capture locally. 3. Check whether the page
+changed during capture. 4. Detect sensitive regions in text and pixels. 5. Create sanitized outputs. 6.
+Validate them. 7. Preview or transmit the exact validated outputs.
+If relevant content changes between observation and capture, discard the stale pair and retry a bounded
+number of times. If the page remains unstable, pause. An overlay on the live page is not sufficient
+protection: the transmitted image and text must themselves be sanitized.
+Detection layers
+Layer
+Purpose and limits
+Explicit rules
+Password-type fields, user-marked regions, known identifier formats, and task policy.
+Formats can resemble ordinary text; checksums do not establish identity.
+Local text model
+Detect contextual names, addresses, and secrets in permitted page text. This adds
+recall but can miss unfamiliar language or formatting.
+Local OCR
+Find visible text in captured pixels. Test coordinate alignment, small text, zoom, and
+image backgrounds.
+Conservative exclusions
+Mask whole unsupported regions or block transmission. Explain lost coverage instead
+of declaring the page safe.
+What the sanitizer must cover
+Mask text in screenshots with opaque replacement pixels, not blur. Replace sensitive strings in the exported
+text representation. Exclude hidden values, tooltips, attributes, links with private parameters, and unrelated
+page content unless needed and validated. Handle messages, errors, history, and tool results through the
+same policy.
+Fail closed means a sanitizer failure blocks transmission. It does not mean the detector knows about
+every secret it missed. Report technical failures separately from detection coverage.
+
+
+GHOSTMASK  /  PRODUCT & ENGINEERING ROADMAP
+5
+05 / PERMISSIONS AND RECOVERY
+Keep tokens local and task-scoped
+6. Separate seeing a value from using it
+Use random, task-scoped tokens rather than embedding the original value in a token. A token is a
+reference, not a permission. The server or local controller must check the allowed destination, field, task,
+and expiry before resolving it. Avoid unnecessary type labels that reveal more than the task needs.
+Record
+Fields to retain
+Task policy
+Task ID; allowed origins; fields; permitted operations; expiry; approval version.
+Capture
+Capture ID; tab/frame; navigation identity; viewport; time; detector versions; coverage
+state.
+Mask
+Region or span; detection category; rule/model source; confidence; user override.
+Token mapping
+Random token; local value; permitted destination and field; expiry. Keep raw values out
+of ordinary logs.
+Receipt
+Sanitized payload ID; action status; masked categories; errors; evidence metadata.
+7. Handle state changes and crashes
+Persist non-secret task progress. Keep raw values in a task-scoped local runtime with a defined lifetime. If
+that runtime ends, discard mappings and ask the user to provide or approve the values again. Chrome
+workers can terminate, so do not rely on service-worker globals for a durable vault. [G3]
+Before local insertion, re-observe the field, origin, and navigation. Refuse a token aimed at a different field
+or domain. After insertion, inspect the result locally; sanitize all later observations because inserted values
+may now be visible on the page.
+Scope of protection
+The destination website still receives values the user authorises for its form. GhostMask limits unnecessary
+model exposure; it does not hide data from that destination, a compromised operating system, or unrelated
+capture software. Hostile page instructions must not modify task permissions.
+
+
+GHOSTMASK  /  PRODUCT & ENGINEERING ROADMAP
+6
+06 / LEARNING PLAN
+Build a browser-specific benchmark
+8. Start with rules and a local inference baseline
+Do not train a large model first. Benchmark rules plus a small existing text detector on the target pages. Add
+OCR separately. On the M1 Pro, run inference and any training sequentially; limit capture resolution and
+stored page history before increasing model size.
+AI4Privacy is a candidate source for text-span detection, not a benchmark for browser screenshots. Verify
+the exact revision, licence, provenance, and permitted use before acquisition. Record the decision in a
+dataset manifest. Its text modality cannot establish end-to-end image coverage. [G4]
+Proposed dataset, not yet collected
+Set
+Construction and labels
+Development
+Approximately 200 independently authored page templates with synthetic sensitive
+and ordinary values. Include forms, tables, cards, small text, and negative examples.
+Validation
+Separate template families for threshold selection. Label spans, visual regions,
+sensitivity categories, and permitted task use.
+Frozen final set
+Unseen layouts, value patterns, fonts, and page families. Include manual review. Do
+not tune on it after inspection.
+Real-site pilot
+Only authorised, reviewed pages. Remove or replace actual personal data before
+using examples for model development.
+A practical starting split is 60/20/20 by template family, not by screenshot. Keep all variations of one page
+family in a single split. Also group repeated source documents and generated text origins to reduce
+leakage.
+Training experiment ladder
+A: rules only. B: rules plus pretrained local detector. C: small classifier over field and context features. D:
+fine-tune a small text detector only if error analysis justifies it. Compare privacy recall, over-redaction,
+latency, and task success at every stage.
+
+
+GHOSTMASK  /  PRODUCT & ENGINEERING ROADMAP
+7
+07 / TESTS AND GATES
+Measure leakage at the boundary
+9. Evaluate end-to-end, not just the classifier
+Metric
+Definition
+Sensitive-value recall
+Fraction of labelled sensitive values successfully removed from the outgoing
+representation. Report by category and modality.
+Leakage rate
+Test pages or requests containing at least one exposed seeded secret, divided by
+tested pages or requests.
+False redaction
+Ordinary information hidden unnecessarily; measure effect on task completion.
+Task success
+Permitted form task completed and independently verified.
+Latency
+Median and 95th-percentile local processing time, with device and capture size.
+ROC-AUC / PR-AUC
+Ranking quality for sensitivity detection. Also report the chosen threshold and
+precision/recall.
+Use a local test proxy or mock endpoint to inspect outgoing payloads. Search for seeded strings and likely
+encodings, decode images for inspection, and manually review a sample. Exact string checks alone miss
+pixel and transformed-value leaks.
+Fault and adversarial tests
+Dynamic insertion; scrolling; browser zoom; high pixel density; inaccessible frames; text on images; rotated
+or faint text; duplicate field names; token reuse on another origin; navigation during execution; crash; OCR
+failure; unsafe debug logs; secrets echoed in tool errors; page instructions requesting raw data.
+Release gates
+Require zero seeded-secret leaks in the declared final test set, zero raw fallbacks, and correct blocking on
+technical failures. Publish sample size and scope: zero observed leaks is not proof of universal safety. Set
+latency and task-utility targets after measuring the first baseline. If coverage is inadequate, narrow
+supported pages.
+AUC above 0.95 would not prove privacy. The operating threshold, missed-secret count, test diversity,
+and usable task completion are more important to the product claim.
+
+
+GHOSTMASK  /  PRODUCT & ENGINEERING ROADMAP
+8
+08 / DELIVERY ROADMAP
+Build the boundary before the model
+10. The 24-hour version
+Time
+Deliverable
+0-2 h
+Define one pipeline, test form, sensitive categories, and threat boundary.
+2-5 h
+Capture text and image; create task-scoped policy and payload viewer.
+5-9 h
+Implement rule-based text sanitization and pixel masks on supported forms.
+9-12 h
+Integrate one model route; prove only sanitized data reaches it.
+12-15 h
+Add permitted local token insertion and post-action re-sanitization.
+15-18 h
+Add blocked-state handling, navigation checks, and safe logs.
+18-21 h
+Run seeded leakage and task-success tests; record limitations.
+21-24 h
+Polish split-screen evidence, record demo, package reproducible tests.
+If local OCR is not dependable by the integration gate, restrict the demo to text-backed supported forms. Do
+not claim canvas or general screenshot coverage from DOM masking alone.
+11. Six-week path
+Week
+Outcome
+1
+Reproducible integrated prototype and explicit boundary diagram.
+2
+Image-text support, frame handling, crash recovery, and latency profile.
+3
+Independent page families, dataset review, baseline comparisons.
+4
+Small authorised pilot; prioritise missed-secret and usability failures.
+5
+Second agent adapter and policy portability; test history and tool-result paths.
+6
+External review, installation package, measured report, retention controls.
+Team: one person owns capture/extension; one owns sanitizer and outbound gateway; one owns policy,
+token actions, and UI; one owns evaluation and demo. With two people, reduce page support and postpone
+model training.
+
+
+GHOSTMASK  /  PRODUCT & ENGINEERING ROADMAP
+9
+09 / REVIEW PACKAGE
+Deliverables, risks, and references
+12. Implementation package
+Suggested modules: extension/panel; capture; sanitize/text; sanitize/image; policy; token-store; gateway;
+executor; fixtures; evaluation; docs. Keep raw fixture data separate from model-visible artifacts. Pin
+dependency and model versions before the final demonstration.
+• Runnable extension and one documented integrated agent path.
+• Threat model, supported-page matrix, data-flow diagram, and explicit exclusions.
+• Synthetic page fixtures, annotation guide, dataset manifest, and frozen test hashes.
+• Benchmark report, actual sanitized payload samples, failure cases, and installation guide.
+Main risks and responses
+Missed private data: publish coverage, add reviewed test cases, narrow support. Utility loss: compare
+task completion with and without masking. False universality: name the integrated pipeline. Vault loss:
+require fresh local approval. Market overlap: validate task-specific disclosure with users before adding
+many adapters.
+Possible buyers are agent developers or teams handling sensitive forms, but willingness to pay remains a
+hypothesis. Pilot questions: what data must never reach the model, what task still needs to work, and what
+evidence would a security reviewer accept?
+Sources and evidence status
+G1. PLVA - predecessor description; not an independent audit
+https://iterate.inc/blog/computer-use-agent-security-how-plva-protects-data
+G2. Chrome - content-script access and isolation
+https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts
+G3. Chrome - worker lifetime and persistence
+https://developer.chrome.com/docs/extensions/develop/concepts/service-workers/lifecycle/
+G4. AI4Privacy - candidate text dataset card
+https://huggingface.co/datasets/ai4privacy/pii-masking-200k
+First milestone: complete a permitted form task while showing that the actual outbound text and image
+payloads exclude the seeded secrets. Block the run when sanitization fails.

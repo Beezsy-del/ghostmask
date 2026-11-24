@@ -1,0 +1,36 @@
+{
+  "family_id": "fam_contact_form",
+  "fixture_id": "fix_contact_standard",
+  "name": "Standard Contact and Feedback Form",
+  "split": "dev",
+  "evaluation_status": "DEV_ACTIVE",
+  "supported": true,
+  "support_notes": "Standard visible HTML input elements within top-level DOM.",
+  "seeds": [
+    "Alex Mercer",
+    "alex.mercer@example.test",
+    "555-0143"
+  ],
+  "categories": [
+    "PERSON_NAME",
+    "EMAIL_ADDRESS",
+    "PHONE_NUMBER"
+  ],
+  "targets": [
+    {
+      "selector": "#contact-name",
+      "category": "PERSON_NAME",
+      "value": "Alex Mercer"
+    },
+    {
+      "selector": "#contact-email",
+      "category": "EMAIL_ADDRESS",
+      "value": "alex.mercer@example.test"
+    },
+    {
+      "selector": "#contact-phone",
+      "category": "PHONE_NUMBER",
+      "value": "555-0143"
+    }
+  ]
+}

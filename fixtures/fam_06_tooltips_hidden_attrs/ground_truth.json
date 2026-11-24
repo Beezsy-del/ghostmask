@@ -1,0 +1,36 @@
+{
+  "family_id": "fam_tooltips_hidden_attrs",
+  "fixture_id": "fix_tooltips_hidden_attrs",
+  "name": "Elements with Sensitive Attributes, Tooltips, and Hidden Inputs",
+  "split": "dev",
+  "evaluation_status": "DEV_ACTIVE",
+  "supported": true,
+  "support_notes": "Supported DOM attributes requiring explicit attribute sanitization beyond innerText.",
+  "seeds": [
+    "SYNTH-AUTH-TOKEN-7788",
+    "4321",
+    "Taylor Swiftly"
+  ],
+  "categories": [
+    "AUTHENTICATION_TOKEN",
+    "PIN_CODE",
+    "PERSON_NAME"
+  ],
+  "targets": [
+    {
+      "selector": "#user-auth-token",
+      "category": "AUTHENTICATION_TOKEN",
+      "value": "SYNTH-AUTH-TOKEN-7788"
+    },
+    {
+      "selector": "#btn-account-pin",
+      "category": "PIN_CODE",
+      "value": "4321"
+    },
+    {
+      "selector": "#user-badge",
+      "category": "PERSON_NAME",
+      "value": "Taylor Swiftly"
+    }
+  ]
+}

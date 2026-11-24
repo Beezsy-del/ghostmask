@@ -1,0 +1,14 @@
+node_modules/
+dist/
+test-results/
+playwright-report/
+.env*
+output/
+
+# Local packages, caches and operating-system metadata
+release/
+__pycache__/
+*.pyc
+.DS_Store
+.court/
+.playwright-cli/

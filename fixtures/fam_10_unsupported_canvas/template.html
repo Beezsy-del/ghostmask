@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Canvas Signature & Routing Pad</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    canvas { border: 2px solid #333; background: #fff; }
+  </style>
+</head>
+<body>
+  <h1>Electronic Signature & Bank Verification</h1>
+  <p>Notice: Account and routing information is drawn directly to the canvas graphics surface.</p>
+  <canvas id="signature-canvas" width="450" height="120"></canvas>
+
+  <script>
+    const canvas = document.getElementById("signature-canvas");
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#111";
+    ctx.font = "16px monospace";
+    ctx.fillText("Routing: 021000021", 20, 45);
+    ctx.fillText("Acct: 1122334455", 20, 80);
+  </script>
+</body>
+</html>

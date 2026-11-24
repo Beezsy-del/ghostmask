@@ -1,0 +1,29 @@
+{
+  "family_id": "fam_dynamic_dom_insertion",
+  "fixture_id": "fix_dynamic_dom_insertion",
+  "name": "Dynamic DOM Node Insertion and Client-Side Hydration",
+  "split": "validation",
+  "evaluation_status": "VALIDATION_ACTIVE",
+  "supported": true,
+  "support_notes": "Dynamic DOM mutation via client-side script; tests re-observation after DOM updates.",
+  "seeds": [
+    "SYNTH-PASS-4411",
+    "skyler.blue@example.test"
+  ],
+  "categories": [
+    "CREDENTIAL_PASSPHRASE",
+    "EMAIL_ADDRESS"
+  ],
+  "targets": [
+    {
+      "selector": "#dynamic-secret-note",
+      "category": "CREDENTIAL_PASSPHRASE",
+      "value": "SYNTH-PASS-4411"
+    },
+    {
+      "selector": "#dynamic-user-email",
+      "category": "EMAIL_ADDRESS",
+      "value": "skyler.blue@example.test"
+    }
+  ]
+}

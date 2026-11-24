@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Security Settings - Attribute & Tooltip Inspection</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    .panel { border: 1px solid #ddd; padding: 1.5rem; max-width: 450px; }
+    .badge { background: #e0f2fe; padding: 0.25rem 0.5rem; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>Account Security Settings</h1>
+  <div class="panel">
+    <form id="security-form">
+      <!-- Hidden attribute secret -->
+      <input type="hidden" id="user-auth-token" name="auth_token" value="SYNTH-AUTH-TOKEN-7788">
+      
+      <p>
+        Account Status:
+        <span id="user-badge" class="badge" data-ssn-last4="9876" aria-label="Account holder: Taylor Swiftly">Active Subscriber</span>
+      </p>
+
+      <p>
+        <!-- Tooltip secret -->
+        <button type="button" id="btn-account-pin" title="Security PIN: 4321" data-pin="4321">
+          Hover for Security PIN
+        </button>
+      </p>
+    </form>
+  </div>
+</body>
+</html>

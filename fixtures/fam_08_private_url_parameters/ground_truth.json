@@ -1,0 +1,36 @@
+{
+  "family_id": "fam_private_url_parameters",
+  "fixture_id": "fix_private_url_parameters",
+  "name": "Anchors and Action URLs with Private Query Parameters",
+  "split": "validation",
+  "evaluation_status": "VALIDATION_ACTIVE",
+  "supported": true,
+  "support_notes": "Standard anchor links containing embedded private tokens or email query params in href attributes.",
+  "seeds": [
+    "pat.quinn@example.test",
+    "SYNTH-RESET-6621",
+    "SYNTH-KEY-9933XYZ"
+  ],
+  "categories": [
+    "EMAIL_ADDRESS",
+    "RESET_TOKEN",
+    "API_KEY"
+  ],
+  "targets": [
+    {
+      "selector": "#link-reset-pwd",
+      "category": "EMAIL_ADDRESS",
+      "value": "pat.quinn@example.test"
+    },
+    {
+      "selector": "#link-reset-pwd",
+      "category": "RESET_TOKEN",
+      "value": "SYNTH-RESET-6621"
+    },
+    {
+      "selector": "#link-api-webhook",
+      "category": "API_KEY",
+      "value": "SYNTH-KEY-9933XYZ"
+    }
+  ]
+}

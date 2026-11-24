@@ -1,0 +1,574 @@
+{
+  "annotation_method": "Agent-authored synthetic seeds and selectors; not independent human review",
+  "created_date": "2026-11-24",
+  "families": [
+    {
+      "evaluation_status": "DEV_ACTIVE",
+      "family_id": "fam_contact_form",
+      "name": "Standard Contact and Feedback Form",
+      "split": "dev",
+      "support_notes": "Standard visible HTML input elements within top-level DOM.",
+      "supported": true
+    },
+    {
+      "evaluation_status": "DEV_ACTIVE",
+      "family_id": "fam_contextual_name_address",
+      "name": "Contextual Billing and Shipping Address Form",
+      "split": "dev",
+      "support_notes": "Dual address blocks where sensitivity classification depends on contextual field labels.",
+      "supported": true
+    },
+    {
+      "evaluation_status": "DEV_ACTIVE",
+      "family_id": "fam_duplicate_replaced_targets",
+      "name": "Duplicate and Replaced Target Form Selectors",
+      "split": "dev",
+      "support_notes": "Supported DOM requiring precise selector qualification to disambiguate identical field names.",
+      "supported": true
+    },
+    {
+      "evaluation_status": "VALIDATION_ACTIVE",
+      "family_id": "fam_dynamic_dom_insertion",
+      "name": "Dynamic DOM Node Insertion and Client-Side Hydration",
+      "split": "validation",
+      "support_notes": "Dynamic DOM mutation via client-side script; tests re-observation after DOM updates.",
+      "supported": true
+    },
+    {
+      "evaluation_status": "DEV_ACTIVE",
+      "family_id": "fam_negative_public_blog",
+      "name": "Public Technical Article (Negative Example)",
+      "split": "dev",
+      "support_notes": "Fully supported public DOM document containing zero PII or private secrets; verifies false positive resistance.",
+      "supported": true
+    },
+    {
+      "evaluation_status": "RESERVED_NOT_EVALUATED",
+      "family_id": "fam_order_receipt_mixed",
+      "name": "Order Confirmation Receipt with Mixed Sensitive and Public Data",
+      "split": "reserved-final",
+      "support_notes": "Supported complex DOM receipt containing interleaved public item descriptions and private orderer metadata.",
+      "supported": true
+    },
+    {
+      "evaluation_status": "VALIDATION_ACTIVE",
+      "family_id": "fam_private_url_parameters",
+      "name": "Anchors and Action URLs with Private Query Parameters",
+      "split": "validation",
+      "support_notes": "Standard anchor links containing embedded private tokens or email query params in href attributes.",
+      "supported": true
+    },
+    {
+      "evaluation_status": "DEV_ACTIVE",
+      "family_id": "fam_reimbursement_card",
+      "name": "Employee Expense Reimbursement Card Layout",
+      "split": "dev",
+      "support_notes": "Flexbox card structured DOM with identifiable CSS classes for claimant metadata.",
+      "supported": true
+    },
+    {
+      "evaluation_status": "DEV_ACTIVE",
+      "family_id": "fam_tooltips_hidden_attrs",
+      "name": "Elements with Sensitive Attributes, Tooltips, and Hidden Inputs",
+      "split": "dev",
+      "support_notes": "Supported DOM attributes requiring explicit attribute sanitization beyond innerText.",
+      "supported": true
+    },
+    {
+      "evaluation_status": "RESERVED_NOT_EVALUATED",
+      "family_id": "fam_unsupported_canvas",
+      "name": "HTML5 Canvas Text Rendering (Unsupported Modality)",
+      "split": "reserved-final",
+      "support_notes": "Unsupported for DOM text sanitizers. Canvas text pixels cannot be intercepted via DOM tree inspection and require visual OCR masking.",
+      "supported": false
+    },
+    {
+      "evaluation_status": "RESERVED_NOT_EVALUATED",
+      "family_id": "fam_unsupported_iframe",
+      "name": "Cross-Origin Sandboxed Iframe (Unsupported Modality)",
+      "split": "reserved-final",
+      "support_notes": "Unsupported for parent content scripts. Cross-origin / sandboxed iframes block DOM access under browser same-origin policy.",
+      "supported": false
+    },
+    {
+      "evaluation_status": "DEV_ACTIVE",
+      "family_id": "fam_user_directory_table",
+      "name": "Corporate User Directory Table",
+      "split": "dev",
+      "support_notes": "Standard HTML table with row-wise records containing tabular personal contact data.",
+      "supported": true
+    }
+  ],
+  "fixtures": [
+    {
+      "categories": [
+        "EMAIL_ADDRESS",
+        "PERSON_NAME",
+        "PHONE_NUMBER"
+      ],
+      "evaluation_status": "DEV_ACTIVE",
+      "family_id": "fam_contact_form",
+      "fixture_id": "fix_contact_standard",
+      "ground_truth_path": "fixtures/fam_01_contact_form/ground_truth.json",
+      "ground_truth_sha256": "65e6257b2bb0e38a4583faaefa042a319ddd8f779faa54bbca8a0a6917d27908",
+      "html_path": "fixtures/fam_01_contact_form/template.html",
+      "html_sha256": "2896bdb4b3cbc1d32ec1f6e697d3c634ac23dcc6d4cd6396dce59295d7d0574f",
+      "seeds": [
+        "Alex Mercer",
+        "alex.mercer@example.test",
+        "555-0143"
+      ],
+      "split": "dev",
+      "support_notes": "Standard visible HTML input elements within top-level DOM.",
+      "supported": true,
+      "targets": [
+        {
+          "category": "PERSON_NAME",
+          "selector": "#contact-name",
+          "value": "Alex Mercer"
+        },
+        {
+          "category": "EMAIL_ADDRESS",
+          "selector": "#contact-email",
+          "value": "alex.mercer@example.test"
+        },
+        {
+          "category": "PHONE_NUMBER",
+          "selector": "#contact-phone",
+          "value": "555-0143"
+        }
+      ]
+    },
+    {
+      "categories": [
+        "CITY",
+        "PERSON_NAME",
+        "POSTAL_CODE",
+        "STREET_ADDRESS"
+      ],
+      "evaluation_status": "DEV_ACTIVE",
+      "family_id": "fam_contextual_name_address",
+      "fixture_id": "fix_contextual_name_address",
+      "ground_truth_path": "fixtures/fam_05_contextual_name_address/ground_truth.json",
+      "ground_truth_sha256": "cb95e1cebfa610a771730d0116b3c4ea8cd063736c34fc94d36acc4d9014471f",
+      "html_path": "fixtures/fam_05_contextual_name_address/template.html",
+      "html_sha256": "2248873bd551ee16cf97c365ed415465d0f8e7b7165b524c1d535a455ba2be38",
+      "seeds": [
+        "Jordan Lee",
+        "100 Main St, Suite 4B",
+        "Metropolis",
+        "10001",
+        "Casey Taylor",
+        "742 Evergreen Terrace",
+        "Springfield",
+        "97477"
+      ],
+      "split": "dev",
+      "support_notes": "Dual address blocks where sensitivity classification depends on contextual field labels.",
+      "supported": true,
+      "targets": [
+        {
+          "category": "PERSON_NAME",
+          "selector": "#billing-name",
+          "value": "Jordan Lee"
+        },
+        {
+          "category": "STREET_ADDRESS",
+          "selector": "#billing-street",
+          "value": "100 Main St, Suite 4B"
+        },
+        {
+          "category": "CITY",
+          "selector": "#billing-city",
+          "value": "Metropolis"
+        },
+        {
+          "category": "POSTAL_CODE",
+          "selector": "#billing-zip",
+          "value": "10001"
+        },
+        {
+          "category": "PERSON_NAME",
+          "selector": "#shipping-name",
+          "value": "Casey Taylor"
+        },
+        {
+          "category": "STREET_ADDRESS",
+          "selector": "#shipping-street",
+          "value": "742 Evergreen Terrace"
+        },
+        {
+          "category": "CITY",
+          "selector": "#shipping-city",
+          "value": "Springfield"
+        },
+        {
+          "category": "POSTAL_CODE",
+          "selector": "#shipping-zip",
+          "value": "97477"
+        }
+      ]
+    },
+    {
+      "categories": [
+        "PHONE_NUMBER"
+      ],
+      "evaluation_status": "DEV_ACTIVE",
+      "family_id": "fam_duplicate_replaced_targets",
+      "fixture_id": "fix_duplicate_replaced_targets",
+      "ground_truth_path": "fixtures/fam_07_duplicate_replaced_targets/ground_truth.json",
+      "ground_truth_sha256": "ffb14158c444eacdb7b9533c1f94eac8ec58a23f81ae2107f3782bdca1426b63",
+      "html_path": "fixtures/fam_07_duplicate_replaced_targets/template.html",
+      "html_sha256": "9e37d2c4db05b00e057bb03953fdaa832f60476a05f5de1bc314238a1b03afa8",
+      "seeds": [
+        "555-0191",
+        "555-0192"
+      ],
+      "split": "dev",
+      "support_notes": "Supported DOM requiring precise selector qualification to disambiguate identical field names.",
+      "supported": true,
+      "targets": [
+        {
+          "category": "PHONE_NUMBER",
+          "selector": "#active-panel #active-phone",
+          "value": "555-0191"
+        },
+        {
+          "category": "PHONE_NUMBER",
+          "selector": "#archived-panel #archived-phone",
+          "value": "555-0192"
+        }
+      ]
+    },
+    {
+      "categories": [
+        "CREDENTIAL_PASSPHRASE",
+        "EMAIL_ADDRESS"
+      ],
+      "evaluation_status": "VALIDATION_ACTIVE",
+      "family_id": "fam_dynamic_dom_insertion",
+      "fixture_id": "fix_dynamic_dom_insertion",
+      "ground_truth_path": "fixtures/fam_09_dynamic_dom_insertion/ground_truth.json",
+      "ground_truth_sha256": "5472861317406789c8f015aa919d9f0b0640bf98e20e2fc95256432dcc96c38c",
+      "html_path": "fixtures/fam_09_dynamic_dom_insertion/template.html",
+      "html_sha256": "9fc6b3c6133e211223f7b01f762f5586a6d29718fd292fb214fe3f0f7caa82ae",
+      "seeds": [
+        "SYNTH-PASS-4411",
+        "skyler.blue@example.test"
+      ],
+      "split": "validation",
+      "support_notes": "Dynamic DOM mutation via client-side script; tests re-observation after DOM updates.",
+      "supported": true,
+      "targets": [
+        {
+          "category": "CREDENTIAL_PASSPHRASE",
+          "selector": "#dynamic-secret-note",
+          "value": "SYNTH-PASS-4411"
+        },
+        {
+          "category": "EMAIL_ADDRESS",
+          "selector": "#dynamic-user-email",
+          "value": "skyler.blue@example.test"
+        }
+      ]
+    },
+    {
+      "categories": [],
+      "evaluation_status": "DEV_ACTIVE",
+      "family_id": "fam_negative_public_blog",
+      "fixture_id": "fix_negative_public_blog",
+      "ground_truth_path": "fixtures/fam_04_negative_public_blog/ground_truth.json",
+      "ground_truth_sha256": "f8a246f0236db50e423d7283122b38d0e444e3fedc48caa5978879ee41cb7bce",
+      "html_path": "fixtures/fam_04_negative_public_blog/template.html",
+      "html_sha256": "ad5b64f9c9ceebc8d4befcd5f3f410d67e89f30d227f2d1b963965234fe29e06",
+      "seeds": [],
+      "split": "dev",
+      "support_notes": "Fully supported public DOM document containing zero PII or private secrets; verifies false positive resistance.",
+      "supported": true,
+      "targets": []
+    },
+    {
+      "categories": [
+        "EMAIL_ADDRESS",
+        "PAYMENT_CARD_LAST4",
+        "PERSON_NAME",
+        "PHONE_NUMBER"
+      ],
+      "evaluation_status": "RESERVED_NOT_EVALUATED",
+      "family_id": "fam_order_receipt_mixed",
+      "fixture_id": "fix_order_receipt_mixed",
+      "ground_truth_path": "fixtures/fam_12_order_receipt_mixed/ground_truth.json",
+      "ground_truth_sha256": "23d3d8af77810690b0d57d5bcb39f7a23a8cf4b1b1f6b7414dc4e48aac2c1caa",
+      "html_path": "fixtures/fam_12_order_receipt_mixed/template.html",
+      "html_sha256": "5425ae15d51b60c64b558f6ff858ebda2df8c2ad47ec59866980e2c39ca1a012",
+      "seeds": [
+        "Riley Harper",
+        "riley.harper@example.test",
+        "555-0164",
+        "4242"
+      ],
+      "split": "reserved-final",
+      "support_notes": "Supported complex DOM receipt containing interleaved public item descriptions and private orderer metadata.",
+      "supported": true,
+      "targets": [
+        {
+          "category": "PERSON_NAME",
+          "selector": "#order-customer-name",
+          "value": "Riley Harper"
+        },
+        {
+          "category": "EMAIL_ADDRESS",
+          "selector": "#order-customer-email",
+          "value": "riley.harper@example.test"
+        },
+        {
+          "category": "PHONE_NUMBER",
+          "selector": "#order-customer-phone",
+          "value": "555-0164"
+        },
+        {
+          "category": "PAYMENT_CARD_LAST4",
+          "selector": "#order-card-last4",
+          "value": "4242"
+        }
+      ]
+    },
+    {
+      "categories": [
+        "API_KEY",
+        "EMAIL_ADDRESS",
+        "RESET_TOKEN"
+      ],
+      "evaluation_status": "VALIDATION_ACTIVE",
+      "family_id": "fam_private_url_parameters",
+      "fixture_id": "fix_private_url_parameters",
+      "ground_truth_path": "fixtures/fam_08_private_url_parameters/ground_truth.json",
+      "ground_truth_sha256": "88a33b3ed33befd51d1d8c1698abf3cf0fdc42d581d36bed42696fafd2226d3e",
+      "html_path": "fixtures/fam_08_private_url_parameters/template.html",
+      "html_sha256": "94aeb6e534d48facc1d4c5fb8c17805bd29791a990dab595743098afdee508c2",
+      "seeds": [
+        "pat.quinn@example.test",
+        "SYNTH-RESET-6621",
+        "SYNTH-KEY-9933XYZ"
+      ],
+      "split": "validation",
+      "support_notes": "Standard anchor links containing embedded private tokens or email query params in href attributes.",
+      "supported": true,
+      "targets": [
+        {
+          "category": "EMAIL_ADDRESS",
+          "selector": "#link-reset-pwd",
+          "value": "pat.quinn@example.test"
+        },
+        {
+          "category": "RESET_TOKEN",
+          "selector": "#link-reset-pwd",
+          "value": "SYNTH-RESET-6621"
+        },
+        {
+          "category": "API_KEY",
+          "selector": "#link-api-webhook",
+          "value": "SYNTH-KEY-9933XYZ"
+        }
+      ]
+    },
+    {
+      "categories": [
+        "FINANCIAL_ACCOUNT",
+        "IDENTIFIER_EMPLOYEE",
+        "PERSON_NAME"
+      ],
+      "evaluation_status": "DEV_ACTIVE",
+      "family_id": "fam_reimbursement_card",
+      "fixture_id": "fix_reimbursement_card",
+      "ground_truth_path": "fixtures/fam_02_reimbursement_card/ground_truth.json",
+      "ground_truth_sha256": "13aea6e9ffdefca0c4b9e06022ea2413d8d7f0de43c778d32b52761e2bbf616a",
+      "html_path": "fixtures/fam_02_reimbursement_card/template.html",
+      "html_sha256": "60f9a16b1769232d6d6d734154b719365c944b8dae4e02415cfe5e0a14ba633c",
+      "seeds": [
+        "Morgan Vance",
+        "SYNTH-EMP-9821",
+        "9876543210"
+      ],
+      "split": "dev",
+      "support_notes": "Flexbox card structured DOM with identifiable CSS classes for claimant metadata.",
+      "supported": true,
+      "targets": [
+        {
+          "category": "PERSON_NAME",
+          "selector": ".claimant-name",
+          "value": "Morgan Vance"
+        },
+        {
+          "category": "IDENTIFIER_EMPLOYEE",
+          "selector": ".employee-id",
+          "value": "SYNTH-EMP-9821"
+        },
+        {
+          "category": "FINANCIAL_ACCOUNT",
+          "selector": ".bank-account",
+          "value": "9876543210"
+        }
+      ]
+    },
+    {
+      "categories": [
+        "AUTHENTICATION_TOKEN",
+        "PERSON_NAME",
+        "PIN_CODE"
+      ],
+      "evaluation_status": "DEV_ACTIVE",
+      "family_id": "fam_tooltips_hidden_attrs",
+      "fixture_id": "fix_tooltips_hidden_attrs",
+      "ground_truth_path": "fixtures/fam_06_tooltips_hidden_attrs/ground_truth.json",
+      "ground_truth_sha256": "f1c2cc7e510076bb474d5c7c53c3af282e920ebad4d3d8ba5457fad4fecb187d",
+      "html_path": "fixtures/fam_06_tooltips_hidden_attrs/template.html",
+      "html_sha256": "ee54c8514ad0491fdcaeee663445c0e95a31b8d155ce0981947b967d7b2a4582",
+      "seeds": [
+        "SYNTH-AUTH-TOKEN-7788",
+        "4321",
+        "Taylor Swiftly"
+      ],
+      "split": "dev",
+      "support_notes": "Supported DOM attributes requiring explicit attribute sanitization beyond innerText.",
+      "supported": true,
+      "targets": [
+        {
+          "category": "AUTHENTICATION_TOKEN",
+          "selector": "#user-auth-token",
+          "value": "SYNTH-AUTH-TOKEN-7788"
+        },
+        {
+          "category": "PIN_CODE",
+          "selector": "#btn-account-pin",
+          "value": "4321"
+        },
+        {
+          "category": "PERSON_NAME",
+          "selector": "#user-badge",
+          "value": "Taylor Swiftly"
+        }
+      ]
+    },
+    {
+      "categories": [
+        "BANK_ROUTING_NUMBER",
+        "FINANCIAL_ACCOUNT"
+      ],
+      "evaluation_status": "RESERVED_NOT_EVALUATED",
+      "family_id": "fam_unsupported_canvas",
+      "fixture_id": "fix_unsupported_canvas",
+      "ground_truth_path": "fixtures/fam_10_unsupported_canvas/ground_truth.json",
+      "ground_truth_sha256": "3192f939de7f544e7e56e234d622680616a1ec157d8a129a78a10f89849d762d",
+      "html_path": "fixtures/fam_10_unsupported_canvas/template.html",
+      "html_sha256": "8c025f5e54f984d8842fcdd5816e40d1fca7a4508e192eface2bea8899d5f968",
+      "seeds": [
+        "021000021",
+        "1122334455"
+      ],
+      "split": "reserved-final",
+      "support_notes": "Unsupported for DOM text sanitizers. Canvas text pixels cannot be intercepted via DOM tree inspection and require visual OCR masking.",
+      "supported": false,
+      "targets": [
+        {
+          "category": "BANK_ROUTING_NUMBER",
+          "selector": "#signature-canvas",
+          "value": "021000021"
+        },
+        {
+          "category": "FINANCIAL_ACCOUNT",
+          "selector": "#signature-canvas",
+          "value": "1122334455"
+        }
+      ]
+    },
+    {
+      "categories": [
+        "VAULT_TOKEN"
+      ],
+      "evaluation_status": "RESERVED_NOT_EVALUATED",
+      "family_id": "fam_unsupported_iframe",
+      "fixture_id": "fix_unsupported_iframe",
+      "ground_truth_path": "fixtures/fam_11_unsupported_iframe/ground_truth.json",
+      "ground_truth_sha256": "fd78d9f2ef3b557d39fc0ec6e59d27eca2cb07bbb757e248eaf59051abda8295",
+      "html_path": "fixtures/fam_11_unsupported_iframe/template.html",
+      "html_sha256": "67afde648fec07471af784faaa73fe6d7beda8daeb3a1c94ccbc3023f5b5ed94",
+      "seeds": [
+        "SYNTH-VAULT-8877"
+      ],
+      "split": "reserved-final",
+      "support_notes": "Unsupported for parent content scripts. Cross-origin / sandboxed iframes block DOM access under browser same-origin policy.",
+      "supported": false,
+      "targets": [
+        {
+          "category": "VAULT_TOKEN",
+          "selector": "#external-vault-iframe",
+          "value": "SYNTH-VAULT-8877"
+        }
+      ]
+    },
+    {
+      "categories": [
+        "EMAIL_ADDRESS",
+        "PERSON_NAME",
+        "PHONE_NUMBER"
+      ],
+      "evaluation_status": "DEV_ACTIVE",
+      "family_id": "fam_user_directory_table",
+      "fixture_id": "fix_user_directory_table",
+      "ground_truth_path": "fixtures/fam_03_user_directory_table/ground_truth.json",
+      "ground_truth_sha256": "daa8754fefbcd8b98e077003f0547e63080722e27ddb1b0f608bc405cf9a8e87",
+      "html_path": "fixtures/fam_03_user_directory_table/template.html",
+      "html_sha256": "895efbfbec123d753bc267c1b5845096722c2ebebe6f58eb5d7a40c417103a5f",
+      "seeds": [
+        "Devon Reed",
+        "devon.reed@example.test",
+        "555-0172",
+        "Samira Khan",
+        "samira.khan@example.test",
+        "555-0185"
+      ],
+      "split": "dev",
+      "support_notes": "Standard HTML table with row-wise records containing tabular personal contact data.",
+      "supported": true,
+      "targets": [
+        {
+          "category": "PERSON_NAME",
+          "selector": "#emp-row-1 .col-name",
+          "value": "Devon Reed"
+        },
+        {
+          "category": "EMAIL_ADDRESS",
+          "selector": "#emp-row-1 .col-email",
+          "value": "devon.reed@example.test"
+        },
+        {
+          "category": "PHONE_NUMBER",
+          "selector": "#emp-row-1 .col-phone",
+          "value": "555-0172"
+        },
+        {
+          "category": "PERSON_NAME",
+          "selector": "#emp-row-2 .col-name",
+          "value": "Samira Khan"
+        },
+        {
+          "category": "EMAIL_ADDRESS",
+          "selector": "#emp-row-2 .col-email",
+          "value": "samira.khan@example.test"
+        },
+        {
+          "category": "PHONE_NUMBER",
+          "selector": "#emp-row-2 .col-phone",
+          "value": "555-0185"
+        }
+      ]
+    }
+  ],
+  "is_synthetic": true,
+  "license": "UNLICENSED - private project; no public licence selected",
+  "provenance": "GhostMask Staging Synthetic Fixture Dataset. Authored for privacy boundary evaluation.",
+  "reserved_split_status": "RESERVED, NOT EVALUATED; no app benchmark exists",
+  "synthetic_data_status": "STAGED_SYNTHETIC_DATA_ONLY",
+  "version": "1.0.1"
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Corporate User Directory</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    table { width: 100%; max-width: 700px; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
+    th { background: #eee; }
+  </style>
+</head>
+<body>
+  <h1>Staff Directory</h1>
+  <table class="directory-table" id="staff-directory">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Department</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="emp-row-1" data-emp-id="E-101">
+        <td class="col-name">Devon Reed</td>
+        <td class="col-email">devon.reed@example.test</td>
+        <td class="col-phone">555-0172</td>
+        <td class="col-dept">Security Operations</td>
+      </tr>
+      <tr id="emp-row-2" data-emp-id="E-102">
+        <td class="col-name">Samira Khan</td>
+        <td class="col-email">samira.khan@example.test</td>
+        <td class="col-phone">555-0185</td>
+        <td class="col-dept">Infrastructure Engineering</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

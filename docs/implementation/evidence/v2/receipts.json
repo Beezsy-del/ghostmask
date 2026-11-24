@@ -1,0 +1,74 @@
+[
+  {
+    "time": "2026-11-23T21:31:20.572Z",
+    "task": "61eb0547-f789-4405-b6df-87219fdc1c06",
+    "capture": "25709383-87ec-4982-8979-984f3adc9f54",
+    "event": "captured",
+    "route": "ollama",
+    "policyVersion": 1,
+    "profile": "strict"
+  },
+  {
+    "time": "2026-11-23T21:31:20.595Z",
+    "task": "61eb0547-f789-4405-b6df-87219fdc1c06",
+    "capture": "25709383-87ec-4982-8979-984f3adc9f54",
+    "event": "approved",
+    "route": "ollama",
+    "policyVersion": 1,
+    "profile": "strict"
+  },
+  {
+    "time": "2026-11-23T21:31:20.595Z",
+    "task": "61eb0547-f789-4405-b6df-87219fdc1c06",
+    "capture": "25709383-87ec-4982-8979-984f3adc9f54",
+    "event": "reviewed",
+    "route": "ollama",
+    "policyVersion": 1,
+    "profile": "strict"
+  },
+  {
+    "time": "2026-11-23T21:31:20.595Z",
+    "task": "61eb0547-f789-4405-b6df-87219fdc1c06",
+    "capture": "25709383-87ec-4982-8979-984f3adc9f54",
+    "event": "request-attempted",
+    "route": "ollama",
+    "policyVersion": 1,
+    "profile": "strict"
+  },
+  {
+    "time": "2026-11-23T21:31:21.813Z",
+    "task": "61eb0547-f789-4405-b6df-87219fdc1c06",
+    "capture": "25709383-87ec-4982-8979-984f3adc9f54",
+    "event": "proposal",
+    "route": "ollama",
+    "policyVersion": 1,
+    "profile": "strict"
+  },
+  {
+    "time": "2026-11-23T21:31:21.818Z",
+    "task": "61eb0547-f789-4405-b6df-87219fdc1c06",
+    "capture": "25709383-87ec-4982-8979-984f3adc9f54",
+    "event": "attempted",
+    "route": "ollama",
+    "policyVersion": 1,
+    "profile": "strict"
+  },
+  {
+    "time": "2026-11-23T21:31:21.823Z",
+    "task": "61eb0547-f789-4405-b6df-87219fdc1c06",
+    "capture": "25709383-87ec-4982-8979-984f3adc9f54",
+    "event": "verified",
+    "route": "ollama",
+    "policyVersion": 1,
+    "profile": "strict"
+  },
+  {
+    "time": "2026-11-23T21:31:21.872Z",
+    "task": "61eb0547-f789-4405-b6df-87219fdc1c06",
+    "capture": "60048833-4195-4a89-a94b-daba012fd523",
+    "event": "captured",
+    "route": "ollama",
+    "policyVersion": 1,
+    "profile": "strict"
+  }
+]

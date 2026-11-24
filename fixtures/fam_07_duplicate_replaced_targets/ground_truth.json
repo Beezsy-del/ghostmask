@@ -1,0 +1,28 @@
+{
+  "family_id": "fam_duplicate_replaced_targets",
+  "fixture_id": "fix_duplicate_replaced_targets",
+  "name": "Duplicate and Replaced Target Form Selectors",
+  "split": "dev",
+  "evaluation_status": "DEV_ACTIVE",
+  "supported": true,
+  "support_notes": "Supported DOM requiring precise selector qualification to disambiguate identical field names.",
+  "seeds": [
+    "555-0191",
+    "555-0192"
+  ],
+  "categories": [
+    "PHONE_NUMBER"
+  ],
+  "targets": [
+    {
+      "selector": "#active-panel #active-phone",
+      "category": "PHONE_NUMBER",
+      "value": "555-0191"
+    },
+    {
+      "selector": "#archived-panel #archived-phone",
+      "category": "PHONE_NUMBER",
+      "value": "555-0192"
+    }
+  ]
+}

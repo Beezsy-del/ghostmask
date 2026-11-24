@@ -1,0 +1,22 @@
+{
+  "family_id": "fam_unsupported_iframe",
+  "fixture_id": "fix_unsupported_iframe",
+  "name": "Cross-Origin Sandboxed Iframe (Unsupported Modality)",
+  "split": "reserved-final",
+  "evaluation_status": "RESERVED_NOT_EVALUATED",
+  "supported": false,
+  "support_notes": "Unsupported for parent content scripts. Cross-origin / sandboxed iframes block DOM access under browser same-origin policy.",
+  "seeds": [
+    "SYNTH-VAULT-8877"
+  ],
+  "categories": [
+    "VAULT_TOKEN"
+  ],
+  "targets": [
+    {
+      "selector": "#external-vault-iframe",
+      "category": "VAULT_TOKEN",
+      "value": "SYNTH-VAULT-8877"
+    }
+  ]
+}

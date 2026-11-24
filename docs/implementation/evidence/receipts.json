@@ -1,0 +1,66 @@
+[
+  {
+    "time": "2026-11-23T21:00:59.197Z",
+    "task": "43b7a22a-1d15-4262-bf92-871106792c26",
+    "capture": "3d3fde87-34a6-4656-b44c-f0cac73a72a0",
+    "event": "captured",
+    "route": "ollama",
+    "policyVersion": 1
+  },
+  {
+    "time": "2026-11-23T21:00:59.222Z",
+    "task": "43b7a22a-1d15-4262-bf92-871106792c26",
+    "capture": "3d3fde87-34a6-4656-b44c-f0cac73a72a0",
+    "event": "approved",
+    "route": "ollama",
+    "policyVersion": 1
+  },
+  {
+    "time": "2026-11-23T21:00:59.222Z",
+    "task": "43b7a22a-1d15-4262-bf92-871106792c26",
+    "capture": "3d3fde87-34a6-4656-b44c-f0cac73a72a0",
+    "event": "reviewed",
+    "route": "ollama",
+    "policyVersion": 1
+  },
+  {
+    "time": "2026-11-23T21:00:59.222Z",
+    "task": "43b7a22a-1d15-4262-bf92-871106792c26",
+    "capture": "3d3fde87-34a6-4656-b44c-f0cac73a72a0",
+    "event": "request-attempted",
+    "route": "ollama",
+    "policyVersion": 1
+  },
+  {
+    "time": "2026-11-23T21:01:00.822Z",
+    "task": "43b7a22a-1d15-4262-bf92-871106792c26",
+    "capture": "3d3fde87-34a6-4656-b44c-f0cac73a72a0",
+    "event": "proposal",
+    "route": "ollama",
+    "policyVersion": 1
+  },
+  {
+    "time": "2026-11-23T21:01:00.828Z",
+    "task": "43b7a22a-1d15-4262-bf92-871106792c26",
+    "capture": "3d3fde87-34a6-4656-b44c-f0cac73a72a0",
+    "event": "attempted",
+    "route": "ollama",
+    "policyVersion": 1
+  },
+  {
+    "time": "2026-11-23T21:01:00.833Z",
+    "task": "43b7a22a-1d15-4262-bf92-871106792c26",
+    "capture": "3d3fde87-34a6-4656-b44c-f0cac73a72a0",
+    "event": "verified",
+    "route": "ollama",
+    "policyVersion": 1
+  },
+  {
+    "time": "2026-11-23T21:01:00.887Z",
+    "task": "43b7a22a-1d15-4262-bf92-871106792c26",
+    "capture": "e7d19499-ae86-48e3-b71f-96145609a192",
+    "event": "captured",
+    "route": "ollama",
+    "policyVersion": 1
+  }
+]

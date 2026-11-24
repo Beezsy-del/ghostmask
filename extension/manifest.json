@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "GhostMask",
+  "version": "0.2.0",
+  "description": "Review, redact and export browser content locally. Approve individual form insertions without exposing original values.",
+  "minimum_chrome_version": "116",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:11434/*",
+    "http://127.0.0.1:1234/*"
+  ],
+  "action": {
+    "default_title": "Open GhostMask"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "side_panel": {
+    "default_path": "panel.html"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'none'; connect-src 'self' http://127.0.0.1:11434 http://127.0.0.1:1234; img-src 'self' data: blob:; style-src 'self'; worker-src 'self'"
+  }
+}

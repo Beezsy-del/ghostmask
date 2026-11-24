@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Employee Reimbursement Claim</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    .expense-card { border: 1px solid #ccc; border-radius: 8px; padding: 1.5rem; max-width: 450px; background: #fafafa; }
+    .card-row { display: flex; justify-content: space-between; margin-bottom: 0.75rem; }
+    .label { font-weight: bold; color: #555; }
+    .val { font-family: monospace; }
+  </style>
+</head>
+<body>
+  <h1>Expense Reimbursement Claim</h1>
+  <div class="expense-card" id="claim-card-802">
+    <div class="card-row">
+      <span class="label">Claimant:</span>
+      <span class="claimant-name val">Morgan Vance</span>
+    </div>
+    <div class="card-row">
+      <span class="label">Employee ID:</span>
+      <span class="employee-id val">SYNTH-EMP-9821</span>
+    </div>
+    <div class="card-row">
+      <span class="label">Disbursement Account:</span>
+      <span class="bank-account val">9876543210</span>
+    </div>
+    <div class="card-row">
+      <span class="label">Approved Amount:</span>
+      <span class="claim-amount val">$142.50</span>
+    </div>
+    <div class="card-row">
+      <span class="label">Justification:</span>
+      <span class="claim-memo">Conference travel meal allowance</span>
+    </div>
+  </div>
+</body>
+</html>

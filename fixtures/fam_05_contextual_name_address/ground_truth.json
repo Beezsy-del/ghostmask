@@ -1,0 +1,67 @@
+{
+  "family_id": "fam_contextual_name_address",
+  "fixture_id": "fix_contextual_name_address",
+  "name": "Contextual Billing and Shipping Address Form",
+  "split": "dev",
+  "evaluation_status": "DEV_ACTIVE",
+  "supported": true,
+  "support_notes": "Dual address blocks where sensitivity classification depends on contextual field labels.",
+  "seeds": [
+    "Jordan Lee",
+    "100 Main St, Suite 4B",
+    "Metropolis",
+    "10001",
+    "Casey Taylor",
+    "742 Evergreen Terrace",
+    "Springfield",
+    "97477"
+  ],
+  "categories": [
+    "PERSON_NAME",
+    "STREET_ADDRESS",
+    "CITY",
+    "POSTAL_CODE"
+  ],
+  "targets": [
+    {
+      "selector": "#billing-name",
+      "category": "PERSON_NAME",
+      "value": "Jordan Lee"
+    },
+    {
+      "selector": "#billing-street",
+      "category": "STREET_ADDRESS",
+      "value": "100 Main St, Suite 4B"
+    },
+    {
+      "selector": "#billing-city",
+      "category": "CITY",
+      "value": "Metropolis"
+    },
+    {
+      "selector": "#billing-zip",
+      "category": "POSTAL_CODE",
+      "value": "10001"
+    },
+    {
+      "selector": "#shipping-name",
+      "category": "PERSON_NAME",
+      "value": "Casey Taylor"
+    },
+    {
+      "selector": "#shipping-street",
+      "category": "STREET_ADDRESS",
+      "value": "742 Evergreen Terrace"
+    },
+    {
+      "selector": "#shipping-city",
+      "category": "CITY",
+      "value": "Springfield"
+    },
+    {
+      "selector": "#shipping-zip",
+      "category": "POSTAL_CODE",
+      "value": "97477"
+    }
+  ]
+}

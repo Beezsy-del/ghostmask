@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Customer Service - Modal Switcher</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    .panel { border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem; max-width: 450px; }
+    .archived { background: #f3f4f6; color: #666; }
+  </style>
+</head>
+<body>
+  <h1>Phone Verification Switcher</h1>
+  
+  <!-- Active panel target -->
+  <div class="panel" id="active-panel">
+    <h3>Active Contact</h3>
+    <form id="form-active">
+      <label for="active-phone">Customer Phone (Primary)</label>
+      <input type="tel" name="customer_phone" id="active-phone" value="555-0191">
+    </form>
+  </div>
+
+  <!-- Archived panel target with duplicate field names -->
+  <div class="panel archived" id="archived-panel">
+    <h3>Archived Historical Record</h3>
+    <form id="form-archived">
+      <label for="archived-phone">Customer Phone (Legacy)</label>
+      <input type="tel" name="customer_phone" id="archived-phone" value="555-0192" disabled>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "family_id": "fam_reimbursement_card",
+  "fixture_id": "fix_reimbursement_card",
+  "name": "Employee Expense Reimbursement Card Layout",
+  "split": "dev",
+  "evaluation_status": "DEV_ACTIVE",
+  "supported": true,
+  "support_notes": "Flexbox card structured DOM with identifiable CSS classes for claimant metadata.",
+  "seeds": [
+    "Morgan Vance",
+    "SYNTH-EMP-9821",
+    "9876543210"
+  ],
+  "categories": [
+    "PERSON_NAME",
+    "IDENTIFIER_EMPLOYEE",
+    "FINANCIAL_ACCOUNT"
+  ],
+  "targets": [
+    {
+      "selector": ".claimant-name",
+      "category": "PERSON_NAME",
+      "value": "Morgan Vance"
+    },
+    {
+      "selector": ".employee-id",
+      "category": "IDENTIFIER_EMPLOYEE",
+      "value": "SYNTH-EMP-9821"
+    },
+    {
+      "selector": ".bank-account",
+      "category": "FINANCIAL_ACCOUNT",
+      "value": "9876543210"
+    }
+  ]
+}

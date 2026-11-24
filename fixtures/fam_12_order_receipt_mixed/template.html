@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Confirmation #5501</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    .receipt-container { border: 1px solid #e5e7eb; border-radius: 6px; padding: 1.5rem; max-width: 550px; }
+    .customer-meta { background: #f9fafb; padding: 1rem; margin-bottom: 1rem; border-radius: 4px; }
+    .line-item { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+  <h1>Order Confirmation</h1>
+  <div class="receipt-container" id="order-receipt-5501">
+    <div class="customer-meta">
+      <p>Customer: <strong id="order-customer-name">Riley Harper</strong></p>
+      <p>Email: <span id="order-customer-email">riley.harper@example.test</span></p>
+      <p>Phone: <span id="order-customer-phone">555-0164</span></p>
+      <p>Payment: Card ending in <span id="order-card-last4">4242</span></p>
+    </div>
+
+    <h3>Purchased Items</h3>
+    <div class="line-item">
+      <span>Synthetic Ergonomic Mousepad (Public Catalog Item)</span>
+      <span>$19.99</span>
+    </div>
+    <div class="line-item">
+      <span>Standard Shipping (USPS Ground)</span>
+      <span>$4.99</span>
+    </div>
+    <hr>
+    <div class="line-item">
+      <strong>Total Paid</strong>
+      <strong>$24.98</strong>
+    </div>
+  </div>
+</body>
+</html>

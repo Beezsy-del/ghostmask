@@ -1,0 +1,54 @@
+{
+  "family_id": "fam_user_directory_table",
+  "fixture_id": "fix_user_directory_table",
+  "name": "Corporate User Directory Table",
+  "split": "dev",
+  "evaluation_status": "DEV_ACTIVE",
+  "supported": true,
+  "support_notes": "Standard HTML table with row-wise records containing tabular personal contact data.",
+  "seeds": [
+    "Devon Reed",
+    "devon.reed@example.test",
+    "555-0172",
+    "Samira Khan",
+    "samira.khan@example.test",
+    "555-0185"
+  ],
+  "categories": [
+    "PERSON_NAME",
+    "EMAIL_ADDRESS",
+    "PHONE_NUMBER"
+  ],
+  "targets": [
+    {
+      "selector": "#emp-row-1 .col-name",
+      "category": "PERSON_NAME",
+      "value": "Devon Reed"
+    },
+    {
+      "selector": "#emp-row-1 .col-email",
+      "category": "EMAIL_ADDRESS",
+      "value": "devon.reed@example.test"
+    },
+    {
+      "selector": "#emp-row-1 .col-phone",
+      "category": "PHONE_NUMBER",
+      "value": "555-0172"
+    },
+    {
+      "selector": "#emp-row-2 .col-name",
+      "category": "PERSON_NAME",
+      "value": "Samira Khan"
+    },
+    {
+      "selector": "#emp-row-2 .col-email",
+      "category": "EMAIL_ADDRESS",
+      "value": "samira.khan@example.test"
+    },
+    {
+      "selector": "#emp-row-2 .col-phone",
+      "category": "PHONE_NUMBER",
+      "value": "555-0185"
+    }
+  ]
+}

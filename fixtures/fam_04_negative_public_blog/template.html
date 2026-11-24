@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GhostMask Architectural Design Principles</title>
+  <style>
+    body { font-family: Georgia, serif; margin: 2rem auto; max-width: 650px; line-height: 1.6; }
+    header { border-bottom: 2px solid #333; margin-bottom: 1.5rem; }
+    .meta { color: #666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <article class="public-article">
+    <header>
+      <h1 id="article-title">GhostMask Architectural Design Principles</h1>
+      <p class="meta">Published by <span id="article-author">GhostMask Documentation Team</span> · Release 1.0 Architecture Notes</p>
+    </header>
+    <section>
+      <h2>Local Boundary Enforcement</h2>
+      <p>
+        The privacy boundary coordinates local observation with model visibility. By decoupling observation
+        from remote transmission, client agents operate without exposing raw browser DOM elements.
+      </p>
+      <h2>Fail-Closed Processing</h2>
+      <p>
+        When an unhandled exception or parsing failure occurs, the outgoing pipeline blocks transmission.
+        No fallback to unredacted content is permitted.
+      </p>
+    </section>
+    <footer>
+      <form id="public-feedback-form">
+        <label for="feedback-rating">Was this technical documentation helpful?</label>
+        <select id="feedback-rating">
+          <option value="yes">Yes</option>
+          <option value="needs-clarification">Needs Clarification</option>
+          <option value="no">No</option>
+        </select>
+      </form>
+    </footer>
+  </article>
+</body>
+</html>

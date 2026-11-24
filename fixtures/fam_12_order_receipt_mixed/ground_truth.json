@@ -1,0 +1,43 @@
+{
+  "family_id": "fam_order_receipt_mixed",
+  "fixture_id": "fix_order_receipt_mixed",
+  "name": "Order Confirmation Receipt with Mixed Sensitive and Public Data",
+  "split": "reserved-final",
+  "evaluation_status": "RESERVED_NOT_EVALUATED",
+  "supported": true,
+  "support_notes": "Supported complex DOM receipt containing interleaved public item descriptions and private orderer metadata.",
+  "seeds": [
+    "Riley Harper",
+    "riley.harper@example.test",
+    "555-0164",
+    "4242"
+  ],
+  "categories": [
+    "PERSON_NAME",
+    "EMAIL_ADDRESS",
+    "PHONE_NUMBER",
+    "PAYMENT_CARD_LAST4"
+  ],
+  "targets": [
+    {
+      "selector": "#order-customer-name",
+      "category": "PERSON_NAME",
+      "value": "Riley Harper"
+    },
+    {
+      "selector": "#order-customer-email",
+      "category": "EMAIL_ADDRESS",
+      "value": "riley.harper@example.test"
+    },
+    {
+      "selector": "#order-customer-phone",
+      "category": "PHONE_NUMBER",
+      "value": "555-0164"
+    },
+    {
+      "selector": "#order-card-last4",
+      "category": "PAYMENT_CARD_LAST4",
+      "value": "4242"
+    }
+  ]
+}

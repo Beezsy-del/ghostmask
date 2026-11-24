@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-23T21:00:55.274Z",
+  "requests": 3,
+  "results": [
+    {
+      "fixture": "fix_order_receipt_mixed",
+      "html_sha256": "5425ae15d51b60c64b558f6ff858ebda2df8c2ad47ec59866980e2c39ca1a012",
+      "seedCount": 4,
+      "seedLeaks": 0,
+      "wrongPixels": 0,
+      "pixels": 921600,
+      "elapsedMs": 118,
+      "coverage": "all pixels suppressed; no raw text; no image sent to text-only provider",
+      "taskUtility": "not measured; no insertion grants in frozen fixtures"
+    },
+    {
+      "fixture": "fix_unsupported_canvas",
+      "html_sha256": "8c025f5e54f984d8842fcdd5816e40d1fca7a4508e192eface2bea8899d5f968",
+      "seedCount": 2,
+      "seedLeaks": 0,
+      "wrongPixels": 0,
+      "pixels": 921600,
+      "elapsedMs": 83,
+      "coverage": "all pixels suppressed; no raw text; no image sent to text-only provider",
+      "taskUtility": "not measured; no insertion grants in frozen fixtures"
+    },
+    {
+      "fixture": "fix_unsupported_iframe",
+      "html_sha256": "67afde648fec07471af784faaa73fe6d7beda8daeb3a1c94ccbc3023f5b5ed94",
+      "seedCount": 1,
+      "seedLeaks": 0,
+      "wrongPixels": 0,
+      "pixels": 921600,
+      "elapsedMs": 76,
+      "coverage": "all pixels suppressed; no raw text; no image sent to text-only provider",
+      "taskUtility": "not measured; no insertion grants in frozen fixtures"
+    }
+  ],
+  "scope": "Three agent-authored templates, single Chromium viewport and scale, mocked model responses; full suppression not selective detection"
+}

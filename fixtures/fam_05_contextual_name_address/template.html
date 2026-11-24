@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout - Billing & Shipping Address</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    fieldset { margin-bottom: 1.5rem; max-width: 500px; padding: 1rem; }
+    legend { font-weight: bold; }
+    .row { margin-bottom: 0.75rem; }
+    label { display: block; font-size: 0.85rem; color: #444; }
+    input { width: 100%; padding: 0.4rem; }
+  </style>
+</head>
+<body>
+  <h1>Order Delivery Details</h1>
+  <form id="address-form">
+    <fieldset id="billing-address-group">
+      <legend>Billing Address</legend>
+      <div class="row">
+        <label for="billing-name">Cardholder Full Name</label>
+        <input type="text" id="billing-name" value="Jordan Lee">
+      </div>
+      <div class="row">
+        <label for="billing-street">Billing Street</label>
+        <input type="text" id="billing-street" value="100 Main St, Suite 4B">
+      </div>
+      <div class="row">
+        <label for="billing-city">Billing City</label>
+        <input type="text" id="billing-city" value="Metropolis">
+      </div>
+      <div class="row">
+        <label for="billing-zip">Billing Postal Code</label>
+        <input type="text" id="billing-zip" value="10001">
+      </div>
+    </fieldset>
+
+    <fieldset id="shipping-address-group">
+      <legend>Shipping Destination</legend>
+      <div class="row">
+        <label for="shipping-name">Recipient Full Name</label>
+        <input type="text" id="shipping-name" value="Casey Taylor">
+      </div>
+      <div class="row">
+        <label for="shipping-street">Delivery Street</label>
+        <input type="text" id="shipping-street" value="742 Evergreen Terrace">
+      </div>
+      <div class="row">
+        <label for="shipping-city">Delivery City</label>
+        <input type="text" id="shipping-city" value="Springfield">
+      </div>
+      <div class="row">
+        <label for="shipping-zip">Delivery Postal Code</label>
+        <input type="text" id="shipping-zip" value="97477">
+      </div>
+    </fieldset>
+  </form>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "family_id": "fam_negative_public_blog",
+  "fixture_id": "fix_negative_public_blog",
+  "name": "Public Technical Article (Negative Example)",
+  "split": "dev",
+  "evaluation_status": "DEV_ACTIVE",
+  "supported": true,
+  "support_notes": "Fully supported public DOM document containing zero PII or private secrets; verifies false positive resistance.",
+  "seeds": [],
+  "categories": [],
+  "targets": []
+}

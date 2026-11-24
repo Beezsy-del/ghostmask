@@ -1,0 +1,136 @@
+{
+  "scope": "Development/validation seed-string coverage only, NOT page privacy recall, not image detection",
+  "samples": 30,
+  "detected": 6,
+  "missed": 24,
+  "negativeSamples": 4,
+  "falsePositives": 0,
+  "auc": null,
+  "reason": "No calibrated scoring model; do not invent ROC-AUC from a binary rule decision",
+  "stageA": "Rules measured",
+  "stageB": "NOT IMPLEMENTED: pretrained local detector",
+  "stageC": "NOT IMPLEMENTED: contextual classifier",
+  "stageD": "NOT JUSTIFIED: obtain independent labels and error review first",
+  "familyResults": [
+    {
+      "family": "fam_contact_form",
+      "detected": false
+    },
+    {
+      "family": "fam_contact_form",
+      "detected": true
+    },
+    {
+      "family": "fam_contact_form",
+      "detected": false
+    },
+    {
+      "family": "fam_contextual_name_address",
+      "detected": false
+    },
+    {
+      "family": "fam_contextual_name_address",
+      "detected": false
+    },
+    {
+      "family": "fam_contextual_name_address",
+      "detected": false
+    },
+    {
+      "family": "fam_contextual_name_address",
+      "detected": false
+    },
+    {
+      "family": "fam_contextual_name_address",
+      "detected": false
+    },
+    {
+      "family": "fam_contextual_name_address",
+      "detected": false
+    },
+    {
+      "family": "fam_contextual_name_address",
+      "detected": false
+    },
+    {
+      "family": "fam_contextual_name_address",
+      "detected": false
+    },
+    {
+      "family": "fam_duplicate_replaced_targets",
+      "detected": false
+    },
+    {
+      "family": "fam_duplicate_replaced_targets",
+      "detected": false
+    },
+    {
+      "family": "fam_dynamic_dom_insertion",
+      "detected": false
+    },
+    {
+      "family": "fam_dynamic_dom_insertion",
+      "detected": true
+    },
+    {
+      "family": "fam_private_url_parameters",
+      "detected": true
+    },
+    {
+      "family": "fam_private_url_parameters",
+      "detected": false
+    },
+    {
+      "family": "fam_private_url_parameters",
+      "detected": false
+    },
+    {
+      "family": "fam_reimbursement_card",
+      "detected": false
+    },
+    {
+      "family": "fam_reimbursement_card",
+      "detected": false
+    },
+    {
+      "family": "fam_reimbursement_card",
+      "detected": true
+    },
+    {
+      "family": "fam_tooltips_hidden_attrs",
+      "detected": false
+    },
+    {
+      "family": "fam_tooltips_hidden_attrs",
+      "detected": false
+    },
+    {
+      "family": "fam_tooltips_hidden_attrs",
+      "detected": false
+    },
+    {
+      "family": "fam_user_directory_table",
+      "detected": false
+    },
+    {
+      "family": "fam_user_directory_table",
+      "detected": true
+    },
+    {
+      "family": "fam_user_directory_table",
+      "detected": false
+    },
+    {
+      "family": "fam_user_directory_table",
+      "detected": false
+    },
+    {
+      "family": "fam_user_directory_table",
+      "detected": true
+    },
+    {
+      "family": "fam_user_directory_table",
+      "detected": false
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "family_id": "fam_unsupported_canvas",
+  "fixture_id": "fix_unsupported_canvas",
+  "name": "HTML5 Canvas Text Rendering (Unsupported Modality)",
+  "split": "reserved-final",
+  "evaluation_status": "RESERVED_NOT_EVALUATED",
+  "supported": false,
+  "support_notes": "Unsupported for DOM text sanitizers. Canvas text pixels cannot be intercepted via DOM tree inspection and require visual OCR masking.",
+  "seeds": [
+    "021000021",
+    "1122334455"
+  ],
+  "categories": [
+    "BANK_ROUTING_NUMBER",
+    "FINANCIAL_ACCOUNT"
+  ],
+  "targets": [
+    {
+      "selector": "#signature-canvas",
+      "category": "BANK_ROUTING_NUMBER",
+      "value": "021000021"
+    },
+    {
+      "selector": "#signature-canvas",
+      "category": "FINANCIAL_ACCOUNT",
+      "value": "1122334455"
+    }
+  ]
+}

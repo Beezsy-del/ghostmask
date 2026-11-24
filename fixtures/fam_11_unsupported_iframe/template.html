@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment Gateway - Sandboxed Iframe</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    iframe { border: 2px dashed #dc2626; width: 100%; max-width: 500px; height: 180px; }
+  </style>
+</head>
+<body>
+  <h1>Secure Payment Processing</h1>
+  <p>The payment card vault below is hosted inside a cross-origin sandboxed iframe:</p>
+  
+  <!-- Cross-origin iframe inaccessible to host page content scripts -->
+  <iframe id="external-vault-iframe"
+          sandbox="allow-scripts"
+          src="https://vault.secure.example.test/embed?token=SYNTH-VAULT-8877"
+          title="Payment Vault Subframe">
+  </iframe>
+</body>
+</html>

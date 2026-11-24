@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Profile - Dynamic Hydration</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    .dynamic-box { border: 1px dashed #059669; padding: 1rem; max-width: 450px; background: #ecfdf5; }
+  </style>
+</head>
+<body>
+  <h1>Dynamic Client Hydration</h1>
+  <p>The profile details below are dynamically injected via client script execution:</p>
+  <div id="dynamic-host" class="dynamic-box">
+    <!-- Populated by script -->
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const host = document.getElementById("dynamic-host");
+      host.innerHTML = `
+        <h3>Session Secrets</h3>
+        <p id="dynamic-secret-note">Confidential Passphrase: SYNTH-PASS-4411</p>
+        <p>Notification Contact: <span id="dynamic-user-email">skyler.blue@example.test</span></p>
+      `;
+    });
+  </script>
+</body>
+</html>
