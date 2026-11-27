@@ -40,7 +40,7 @@ async function pageSnapshot(
     urlKey: string;
     viewport: Identity["viewport"];
   },
-  insertion?: { key: string; value: string },
+  insertions?: { key: string; value: string }[],
 ): Promise<PageSnapshot | boolean> {
   const host = globalThis as typeof globalThis & {
     __ghostmaskCaptureV1?: PageState;
@@ -140,101 +140,123 @@ async function pageSnapshot(
       !sameViewport(viewport, expected.viewport))
   )
     return false;
-  if (insertion) {
-    const el = state.elements.get(insertion.key);
+  if (insertions) {
     if (
-      !el?.isConnected ||
-      isExcluded(el) ||
-      el.ownerDocument !== document ||
-      document.visibilityState !== "visible"
+      !insertions.length ||
+      insertions.length > 100 ||
+      new Set(insertions.map((item) => item.key)).size !== insertions.length
     )
       return false;
-    if (
-      !(
-        el instanceof HTMLInputElement ||
-        el instanceof HTMLTextAreaElement ||
-        el instanceof HTMLSelectElement
+    const prepared: {
+      el: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+      key: string;
+      value: string;
+      setter: (value: string) => void;
+    }[] = [];
+    for (const insertion of insertions) {
+      const el = state.elements.get(insertion.key);
+      if (
+        !el?.isConnected ||
+        isExcluded(el) ||
+        el.ownerDocument !== document ||
+        document.visibilityState !== "visible"
       )
-    )
-      return false;
-    if (
-      el.disabled ||
-      (!(el instanceof HTMLSelectElement) && el.readOnly) ||
-      el.closest("[inert]") ||
-      el.getAttribute("aria-disabled") === "true"
-    )
-      return false;
-    if (
-      el instanceof HTMLInputElement &&
-      !["text", "email", "tel", "search", "url"].includes(el.type)
-    )
-      return false;
-    if (el instanceof HTMLSelectElement) {
-      const options = Array.from(el.options).filter(
-        (option) => option.value === insertion.value,
+        return false;
+      if (
+        !(
+          el instanceof HTMLInputElement ||
+          el instanceof HTMLTextAreaElement ||
+          el instanceof HTMLSelectElement
+        )
+      )
+        return false;
+      if (
+        el.disabled ||
+        (!(el instanceof HTMLSelectElement) && el.readOnly) ||
+        el.closest("[inert]") ||
+        el.getAttribute("aria-disabled") === "true"
+      )
+        return false;
+      if (
+        el instanceof HTMLInputElement &&
+        !["text", "email", "tel", "search", "url"].includes(el.type)
+      )
+        return false;
+      if (el instanceof HTMLSelectElement) {
+        const options = Array.from(el.options).filter(
+          (option) => option.value === insertion.value,
+        );
+        if (
+          el.multiple ||
+          options.length !== 1 ||
+          options[0].disabled ||
+          (options[0].parentElement instanceof HTMLOptGroupElement &&
+            options[0].parentElement.disabled)
+        )
+          return false;
+      }
+      for (
+        let ancestor: Element | null = el;
+        ancestor;
+        ancestor = ancestor.parentElement
+      ) {
+        const ancestorStyle = getComputedStyle(ancestor);
+        if (
+          ancestorStyle.display === "none" ||
+          ancestorStyle.visibility !== "visible" ||
+          Number(ancestorStyle.opacity) === 0 ||
+          ancestorStyle.contentVisibility === "hidden"
+        )
+          return false;
+      }
+      const rect = el.getBoundingClientRect(),
+        style = getComputedStyle(el);
+      if (
+        rect.width <= 0 ||
+        rect.height <= 0 ||
+        rect.top < 0 ||
+        rect.left < 0 ||
+        rect.bottom > innerHeight ||
+        rect.right > innerWidth ||
+        style.visibility !== "visible" ||
+        style.display === "none" ||
+        Number(style.opacity) === 0
+      )
+        return false;
+      const top = document.elementFromPoint(
+        rect.x + rect.width / 2,
+        rect.y + rect.height / 2,
       );
-      if (
-        el.multiple ||
-        options.length !== 1 ||
-        options[0].disabled ||
-        (options[0].parentElement instanceof HTMLOptGroupElement &&
-          options[0].parentElement.disabled)
-      )
-        return false;
+      if (top !== el) return false;
+      const setter = Object.getOwnPropertyDescriptor(
+        el instanceof HTMLTextAreaElement
+          ? HTMLTextAreaElement.prototype
+          : el instanceof HTMLSelectElement
+            ? HTMLSelectElement.prototype
+            : HTMLInputElement.prototype,
+        "value",
+      )?.set;
+      if (!setter) return false;
+      prepared.push({ el, key: insertion.key, value: insertion.value, setter });
     }
-    for (
-      let ancestor: Element | null = el;
-      ancestor;
-      ancestor = ancestor.parentElement
-    ) {
-      const ancestorStyle = getComputedStyle(ancestor);
-      if (
-        ancestorStyle.display === "none" ||
-        ancestorStyle.visibility !== "visible" ||
-        Number(ancestorStyle.opacity) === 0 ||
-        ancestorStyle.contentVisibility === "hidden"
-      )
-        return false;
+    // Validate every target first, then set all values before page event handlers run.
+    for (const item of prepared) item.setter.call(item.el, item.value);
+    for (const { el } of prepared) {
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+      el.dispatchEvent(new Event("change", { bubbles: true }));
     }
-    const rect = el.getBoundingClientRect(),
-      style = getComputedStyle(el);
-    if (
-      rect.width <= 0 ||
-      rect.height <= 0 ||
-      rect.top < 0 ||
-      rect.left < 0 ||
-      rect.bottom > innerHeight ||
-      rect.right > innerWidth ||
-      style.visibility !== "visible" ||
-      style.display === "none" ||
-      Number(style.opacity) === 0
-    )
-      return false;
-    const top = document.elementFromPoint(
-      rect.x + rect.width / 2,
-      rect.y + rect.height / 2,
-    );
-    if (top !== el) return false;
-    const setter = Object.getOwnPropertyDescriptor(
-      el instanceof HTMLTextAreaElement
-        ? HTMLTextAreaElement.prototype
-        : el instanceof HTMLSelectElement
-          ? HTMLSelectElement.prototype
-          : HTMLInputElement.prototype,
-      "value",
-    )?.set;
-    if (!setter) return false;
-    setter.call(el, insertion.value);
-    el.dispatchEvent(new Event("input", { bubbles: true }));
-    el.dispatchEvent(new Event("change", { bubbles: true }));
     if (state.observer.takeRecords().length) state.generation++;
     return (
-      el.isConnected &&
-      state.elements.get(insertion.key) === el &&
-      el.value === insertion.value &&
-      location.origin === origin
+      location.origin === origin &&
+      prepared.every(
+        ({ el, key, value }) =>
+          el.isConnected &&
+          state.elements.get(key) === el &&
+          el.value === value,
+      )
     );
   }
+
   const masks: Rect[] = [];
   const protectedMasks: Rect[] = [];
   const blocks: TextBlock[] = [];
@@ -793,12 +815,24 @@ export class ChromeBrowser implements BrowserPort {
     fieldKey: string,
     value: string,
   ): Promise<boolean> {
+    return this.insertBatch(identity, [{ key: fieldKey, value }]);
+  }
+  async insertBatch(
+    identity: Identity,
+    entries: { key: string; value: string }[],
+  ): Promise<boolean> {
     try {
       if (
-        !fieldKey ||
-        fieldKey.length > 100 ||
-        typeof value !== "string" ||
-        value.length > 10000
+        !entries.length ||
+        entries.length > 100 ||
+        new Set(entries.map((item) => item.key)).size !== entries.length ||
+        entries.some(
+          ({ key, value }) =>
+            !key ||
+            key.length > 100 ||
+            typeof value !== "string" ||
+            value.length > 10000,
+        )
       )
         throw new SafeError("INVALID_INPUT");
       if (!sameIdentity(identity, await this.current(identity.tabId)))
@@ -818,7 +852,7 @@ export class ChromeBrowser implements BrowserPort {
             urlKey: identity.urlKey,
             viewport: identity.viewport,
           },
-          { key: fieldKey, value },
+          entries,
         ],
       });
       if (
@@ -835,8 +869,10 @@ export class ChromeBrowser implements BrowserPort {
         after.urlKey === identity.urlKey &&
         after.windowId === identity.windowId &&
         after.zoom === identity.zoom &&
-        observed.snapshot.fields.some(
-          (f) => f.key === fieldKey && f.value === value,
+        entries.every(({ key, value }) =>
+          observed.snapshot.fields.some(
+            (f) => f.key === key && f.value === value,
+          ),
         )
       );
     } catch (e) {

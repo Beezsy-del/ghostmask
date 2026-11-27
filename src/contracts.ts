@@ -51,6 +51,10 @@ export type Observation = {
 export interface BrowserPort {
   capture(tabId: number, exclusions: string[]): Promise<Observation>;
   current(tabId: number): Promise<Identity>;
+  insertBatch?(
+    identity: Identity,
+    entries: { key: string; value: string }[],
+  ): Promise<boolean>;
   insert(identity: Identity, fieldKey: string, value: string): Promise<boolean>;
 }
 export type SafeErrorCode =

@@ -57,3 +57,21 @@ test("summary parser rejects extra actions and excessive outputs", () => {
     parseProposal({ type: "summary", text: "x".repeat(2001) }),
   );
 });
+
+test("batch parser accepts scoped insertions and rejects extra actions", () => {
+  const insertion = {
+    target: "field-1",
+    token: "12345678-1234-1234-1234-123456789abc",
+  };
+  assert.equal(
+    parseProposal({ type: "batch_insert", insertions: [insertion] }).type,
+    "batch_insert",
+  );
+  assert.throws(() =>
+    parseProposal({
+      type: "batch_insert",
+      insertions: [{ ...insertion, action: "submit" }],
+    }),
+  );
+  assert.throws(() => parseProposal({ type: "batch_insert", insertions: [] }));
+});

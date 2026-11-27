@@ -248,6 +248,37 @@ export class Session {
     this.#refresh();
     this.#record("approved");
   }
+  async approveBatch(entries: { target: string; value: string }[]) {
+    this.#check();
+    if (!this.#observation) throw new SafeError("INVALID_ARTIFACT");
+    if (this.#purpose !== "fill-approved-fields" || entries.length === 0)
+      throw new SafeError("POLICY_DENIED");
+    for (const { target } of entries) {
+      const f = this.#field(target);
+      if (
+        !this.allowed.includes(f.category) ||
+        f.category === "secret" ||
+        !["text", "email", "tel", "textarea", "select"].includes(f.kind) ||
+        this.#privacy.manualMasks.some((r) => rectIntersects(r, f.rect))
+      )
+        throw new SafeError("POLICY_DENIED");
+    }
+    if (this.#privacy.profile === "reviewed") {
+      const values = entries.map((e) => e.value).filter(Boolean);
+      await this.configurePrivacy({
+        privateTerms: [...new Set([...this.#privacy.privateTerms, ...values])],
+      });
+      this.#check();
+    }
+    for (const { target, value } of entries) {
+      const f = this.#field(target);
+      const token = this.#tokens.issue(value, this.#scope(f.key));
+      this.#grants = this.#grants.filter((g) => g.target !== target);
+      this.#grants.push({ target, token });
+    }
+    this.#refresh();
+    this.#record("approved");
+  }
   #field(target: string) {
     if (!/^field-[1-9]\d{0,2}$/.test(target))
       throw new SafeError("POLICY_DENIED");
@@ -292,6 +323,20 @@ export class Session {
         )
       )
         throw new SafeError("POLICY_DENIED");
+      if (proposal.type === "batch_insert") {
+        if (
+          proposal.insertions.length === 0 ||
+          new Set(proposal.insertions.map((item) => item.target)).size !==
+            proposal.insertions.length ||
+          proposal.insertions.some(
+            (ins) =>
+              !this.#grants.some(
+                (g) => g.target === ins.target && g.token === ins.token,
+              ),
+          )
+        )
+          throw new SafeError("POLICY_DENIED");
+      }
       if (
         (this.#purpose === "summarize-page" && proposal.type !== "summary") ||
         (this.#purpose === "fill-approved-fields" &&
@@ -317,20 +362,37 @@ export class Session {
       const p = this.#proposal;
       this.#proposal = undefined;
       const o = this.#observation;
-      if (!p || p.type !== "insert" || !o) throw new SafeError("POLICY_DENIED");
+      if (!p || (p.type !== "insert" && p.type !== "batch_insert") || !o)
+        throw new SafeError("POLICY_DENIED");
       if (!sameIdentity(o.identity, await this.browser.current(this.tabId)))
         throw new SafeError("STALE_CAPTURE");
       this.#check(epoch);
-      const f = this.#field(p.target);
-      if (
-        !this.allowed.includes(f.category) ||
-        !this.#grants.some((g) => g.token === p.token && g.target === p.target)
-      )
-        throw new SafeError("POLICY_DENIED");
-      const value = this.#tokens.consume(p.token, this.#scope(f.key));
-      this.#grants = [];
+      const plan: { target: string; token: string }[] =
+        p.type === "batch_insert" ? p.insertions : [p];
+      if (plan.length > 1 && !this.browser.insertBatch)
+        throw new SafeError("UNSUPPORTED");
+      const entries: { key: string; value: string }[] = [];
+      for (const item of plan) {
+        const f = this.#field(item.target);
+        if (
+          !this.allowed.includes(f.category) ||
+          !this.#grants.some(
+            (g) => g.token === item.token && g.target === item.target,
+          )
+        )
+          throw new SafeError("POLICY_DENIED");
+        const value = this.#tokens.consume(item.token, this.#scope(f.key));
+        this.#grants = this.#grants.filter((g) => g.token !== item.token);
+        entries.push({ key: f.key, value });
+      }
       this.#record("attempted");
-      const success = await this.browser.insert(o.identity, f.key, value);
+      const success = this.browser.insertBatch
+        ? await this.browser.insertBatch(o.identity, entries)
+        : await this.browser.insert(
+            o.identity,
+            entries[0].key,
+            entries[0].value,
+          );
       this.#check(epoch);
       if (!success) throw new SafeError("INSERT_FAILED");
       this.#record("verified");

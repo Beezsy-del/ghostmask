@@ -445,3 +445,47 @@ test("a programmatic hidden-value change invalidates capture identity", async ()
     },
   );
 });
+
+test("batch insertion validates all targets before writing any value", async () => {
+  await withRealDom(
+    '<label>Name<input id="name"></label><label>Choice<select id="choice"><option value="a">A</option></select></label>',
+    async (browser, page) => {
+      const observation = await browser.capture(7, []);
+      const [name, choice] = observation.fields;
+      assert.equal(
+        await browser.insertBatch(observation.identity, [
+          { key: name.key, value: "Synthetic Taylor" },
+          { key: choice.key, value: "missing-option" },
+        ]),
+        false,
+      );
+      assert.equal(await page.locator("#name").inputValue(), "");
+      assert.equal(await page.locator("#choice").inputValue(), "a");
+    },
+  );
+});
+
+test("batch insertion verifies values after page event handlers run", async () => {
+  await withRealDom(
+    '<label>Name<input id="name"></label><label>Email<input id="email" type="email"></label>',
+    async (browser, page) => {
+      await page.evaluate(() =>
+        document.querySelector("#name")!.addEventListener("input", () => {
+          (document.querySelector("#email") as HTMLInputElement).value =
+            "rewritten@example.test";
+        }),
+      );
+      const observation = await browser.capture(7, []);
+      assert.equal(
+        await browser.insertBatch(
+          observation.identity,
+          observation.fields.map((field, index) => ({
+            key: field.key,
+            value: index ? "taylor@example.test" : "Synthetic Taylor",
+          })),
+        ),
+        false,
+      );
+    },
+  );
+});
